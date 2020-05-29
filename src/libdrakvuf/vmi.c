@@ -1566,6 +1566,8 @@ bool init_vmi(drakvuf_t drakvuf, bool libvmi_conf)
     }
     PRINT_DEBUG("Altp2m view X created with ID %u\n", drakvuf->altp2m_idx);
 
+    xc_altp2m_set_visibility(drakvuf->xen->xc, drakvuf->domID, drakvuf->altp2m_idx, true);
+
     /*
      * We will use the idr view to map all shadow pages to the sink page in case
      * something is trying to check the contents of the shadow pages.
@@ -1577,6 +1579,8 @@ bool init_vmi(drakvuf_t drakvuf, bool libvmi_conf)
         return 0;
     }
     PRINT_DEBUG("Altp2m view R created with ID %u\n", drakvuf->altp2m_idr);
+
+    xc_altp2m_set_visibility(drakvuf->xen->xc, drakvuf->domID, drakvuf->altp2m_idr, true);
 
     SETUP_INTERRUPT_EVENT(&drakvuf->interrupt_event, int3_cb);
     drakvuf->interrupt_event.data = drakvuf;
